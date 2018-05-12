@@ -27,6 +27,28 @@ userController.edit = function(req, res) {
       res.render("users/create");
     }
   };
+  userController.update = function(req, res) {
+    const updatedUser = req.body;
+    User.findByIdAndUpdate(
+      req.params.id,
+      {
+        $set: {
+          name: updatedUser.name,
+          address: updatedUser.address,
+          position: updatedUser.position,
+          salary: updatedUser.salary
+        }
+      },
+      { new: true }, // return updated
+      function(err, user) {
+        console.log("in update callback");
+        if (err) {
+          console.log("failed to update", err);
+        }
+        res.json(user);
+      }
+    );
+  };
   
   userController.create = function(req, res) {
     var user = new User(req.body);
