@@ -64,5 +64,17 @@ userController.edit = function(req, res) {
       }
     });
   };
-
+  userController.delete = function(req, res) {
+    const uid = req.params.id;
+    User.remove({ _id: uid }, function(err) {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log(`User ${uid} deleted!`);
+      }
+    });
+  
+    // the server should respond with data to fire jquery callback
+    res.json({});
+  };
 module.exports = userController;
