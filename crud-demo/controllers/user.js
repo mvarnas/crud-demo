@@ -13,7 +13,19 @@ userController.list = function(req, res) {
   });
 };
 userController.edit = function(req, res) {
-    res.render("users/create");
+    const userId = req.params.id;
+  
+    if (userId) {
+      User.findOne({ _id: userId }).exec(function(err, user) {
+        if (err) {
+          console.log("Error:", err);
+        } else {
+          res.render("users/edit", { user });
+        }
+      });
+    } else {
+      res.render("users/create");
+    }
   };
   
   userController.create = function(req, res) {
@@ -30,5 +42,5 @@ userController.edit = function(req, res) {
       }
     });
   };
-  
+
 module.exports = userController;
